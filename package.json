@@ -5,6 +5,9 @@
   "repository": "git@github.com:spontoreau/gyoza.git",
   "author": "<pontoreau.sylvain@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "rimraf dist && tsc -p tsconfig.prod.json"
+  },
   "devDependencies": {
     "rimraf": "^3.0.0",
     "typescript": "^3.7.3"
