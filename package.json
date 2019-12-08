@@ -6,6 +6,7 @@
   "author": "<pontoreau.sylvain@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "rimraf": "^3.0.0",
     "typescript": "^3.7.3"
   }
 }
