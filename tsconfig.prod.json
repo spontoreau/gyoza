@@ -4,6 +4,10 @@
       "outDir": "dist",
       "declaration": true,
       "sourceMap": false
-    }
+    },
+    "exclude": [
+      "node_modules", 
+      "**/*spec.ts"
+    ]
   }
   
