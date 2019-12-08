@@ -1,0 +1,8 @@
+{
+  "name": "gyoza",
+  "version": "0.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:spontoreau/gyoza.git",
+  "author": "<pontoreau.sylvain@gmail.com>",
+  "license": "MIT"
+}
