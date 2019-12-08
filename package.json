@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "git@github.com:spontoreau/gyoza.git",
   "author": "<pontoreau.sylvain@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.7.3"
+  }
 }
