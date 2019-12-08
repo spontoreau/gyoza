@@ -106,3 +106,7 @@ dist
 # TypeScript build
 *.js.map
 *.js
+
+# IDE
+.vscode
+.idea
