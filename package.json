@@ -43,5 +43,10 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint"
+    }
   }
 }
