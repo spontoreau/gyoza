@@ -110,3 +110,6 @@ dist
 # IDE
 .vscode
 .idea
+
+# Test results
+junit.xml
