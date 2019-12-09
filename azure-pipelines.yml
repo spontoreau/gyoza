@@ -1,0 +1,32 @@
+trigger:
+  - master
+    
+pool:
+  vmImage: 'ubuntu-latest'
+    
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '12.x'
+    displayName: 'Install Node.js'
+
+  - script: yarn
+    displayName: 'Install dependencies'
+    
+  - script: yarn lint
+    displayName: 'Execute lint'
+
+  - script: yarn test:ci
+    displayName: 'Execute unit tests'
+
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: '**/junit.xml'
+  
+  - task: PublishCodeCoverageResults@1
+    inputs: 
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*cobertura-coverage.xml'
+      reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
