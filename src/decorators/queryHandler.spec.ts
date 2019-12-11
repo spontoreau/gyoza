@@ -24,4 +24,30 @@ describe("QueryHandler decorator tests", () => {
     // Assert
     expect(actual.toString()).toBe(expected);
   });
+
+  it("Given a query, When the query was already used to decorate a handler, Then the decorator throws an exception", () => {
+    // Arrange
+    class Ping {}
+    class Pong {}
+
+    // Act
+    const func = expect(() => {
+      @QueryHandler(Ping)
+      class PingQueryHandler implements Handler<Ping, Pong> {
+        handle(command: Ping): Promise<Pong> {
+          throw new Error("Method not implemented.");
+        }
+      }
+
+      @QueryHandler(Ping)
+      class OtherQueryHandler implements Handler<Ping, Pong> {
+        handle(command: Ping): Promise<Pong> {
+          throw new Error("Method not implemented.");
+        }
+      }
+    });
+
+    // Assert
+    func.toThrow("Ping already used to decorate a QueryHandler!");
+  });
 });
