@@ -40,7 +40,7 @@
       "js"
     ],
     "testMatch": [
-      "**/src/*spec.+(ts)"
+      "**/src/**/*spec.+(ts)"
     ],
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
