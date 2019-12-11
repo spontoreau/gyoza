@@ -1,4 +1,5 @@
 import { Handler } from "../types/handler";
+import { QueryAlreadyUsedException } from "../exceptions/queryAlreadyUsedException";
 
 const QUERY_KEY = Symbol("Query");
 
@@ -8,7 +9,7 @@ const QueryHandler = <TQuery, TResult>(
   const meta: Symbol | "" = Reflect.getOwnMetadata(QUERY_KEY, target) ?? "";
 
   if (meta) {
-    throw new Error(`${target.name} already used to decorate a QueryHandler!`);
+    throw new QueryAlreadyUsedException(target);
   }
 
   const key = Symbol(target.name);

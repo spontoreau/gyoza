@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { QUERY_KEY } from "./queryHandler";
 import { QueryHandler } from "./queryHandler";
 import { Handler } from "../types/handler";
+import { QueryAlreadyUsedException } from "../exceptions/queryAlreadyUsedException";
 
 describe("QueryHandler decorator tests", () => {
   it("Given a query and a query handler, When the handler is decorated with the query as parameter, Then the query has handling metadata", () => {
@@ -29,6 +30,7 @@ describe("QueryHandler decorator tests", () => {
     // Arrange
     class Ping {}
     class Pong {}
+    const expected = new QueryAlreadyUsedException(Ping);
 
     // Act
     const func = expect(() => {
@@ -48,6 +50,6 @@ describe("QueryHandler decorator tests", () => {
     });
 
     // Assert
-    func.toThrow("Ping already used to decorate a QueryHandler!");
+    func.toThrow(expected);
   });
 });
