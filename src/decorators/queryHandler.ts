@@ -1,5 +1,7 @@
 import { Handler } from "../types/handler";
 import { QueryAlreadyUsedException } from "../exceptions/queryAlreadyUsedException";
+import { getRegistry } from "../registries/context";
+import { RegistryType } from "../registries/registryType";
 
 const QUERY_KEY = Symbol("Query");
 
@@ -16,7 +18,12 @@ const QueryHandler = <TQuery, TResult>(
 
   Reflect.defineMetadata(QUERY_KEY, key, target);
 
-  return (queryHandler: new () => Handler<TQuery, TResult>) => {};
+  return (queryHandler: new () => Handler<TQuery, TResult>) => {
+    const registry = getRegistry<Handler<unknown, unknown>>(
+      RegistryType.QueryHandler
+    );
+    registry.add(key, queryHandler);
+  };
 };
 
 export { QUERY_KEY, QueryHandler };
