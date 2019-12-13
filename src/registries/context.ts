@@ -6,8 +6,16 @@ const getRegistry = <T>(type: RegistryType): Registry<T> => {
   return registries.find(r => r.type === type) as Registry<T>;
 };
 
-let registries: ReadonlyArray<Registry<any>> = [
-  new Registry<Handler<unknown, unknown>>(RegistryType.QueryHandler)
-];
+const getRegistries = (): ReadonlyArray<Registry<any>> => {
+  return [
+    new Registry<Handler<unknown, unknown>>(RegistryType.QueryHandler)
+  ];
+}
 
-export { getRegistry };
+const resetRegistries = () => {
+  registries = getRegistries();
+};
+
+let registries = getRegistries();
+
+export { getRegistry, resetRegistries };
