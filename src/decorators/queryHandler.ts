@@ -22,6 +22,11 @@ const QueryHandler = <TQuery, TResult>(
     const registry = getRegistry<Handler<unknown, unknown>>(
       RegistryType.QueryHandler
     );
+
+    if(!("handle" in queryHandler.prototype)) {
+      throw new Error(`${queryHandler.name} doesn't defined any 'handle' method.`);
+    }
+
     registry.add(key, queryHandler);
   };
 };

@@ -3,10 +3,14 @@ import { QUERY_KEY } from "./queryHandler";
 import { QueryHandler } from "./queryHandler";
 import { Handler } from "../types/handler";
 import { QueryAlreadyUsedException } from "../exceptions/queryAlreadyUsedException";
-import { getRegistry } from "../registries/context";
+import { getRegistry, resetRegistries } from "../registries/context";
 import { RegistryType } from "../registries/registryType";
 
 describe("QueryHandler decorator tests", () => {
+  beforeAll(() => {
+    resetRegistries();
+  });
+
   it("Given a query and a query handler, When the handler is decorated with the query as parameter, Then the query has handling metadata", () => {
     // Arrange
     class Ping {}
@@ -74,5 +78,22 @@ describe("QueryHandler decorator tests", () => {
     const handler = registry.getInstance(key);
     const actual = handler instanceof PingQueryHandler;
     expect(actual).toBeTruthy();
+  });
+
+  it("Given a handler that doesn't implement the Handler interface, When decorated with QueryHandler decorator, Then it throws an exception", () => {
+    // Arrange
+    class Ping {}
+
+    // Act
+    const func = expect(() => {
+      // @ts-ignore
+      @QueryHandler(Ping)
+      class PingQueryHandler {}
+    });
+
+    // Assert
+    func.toThrowError(
+      "PingQueryHandler doesn't defined any 'handle' method."
+    );
   });
 });
