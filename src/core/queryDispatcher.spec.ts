@@ -22,7 +22,7 @@ describe("QueryDispatcher tests", () => {
 
     @QueryHandler(Ping)
     class PingQueryHandler implements Handler<Ping, Pong> {
-      handle(ping: Ping): Promise<Pong> {
+      async handle(ping: Ping): Promise<Pong> {
         return Promise.resolve(new Pong(ping.value));
       }
     }
