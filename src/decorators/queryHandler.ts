@@ -6,28 +6,28 @@ import { RegistryType } from "../registries/registryType";
 const QUERY_KEY = Symbol("Query");
 
 const QueryHandler = <TQuery, TResult>(
-  target: new (...parameters: any[]) => TQuery
+  query: new (...parameters: any[]) => TQuery
 ) => {
-  const meta: Symbol | "" = Reflect.getOwnMetadata(QUERY_KEY, target) ?? "";
+  const meta: Symbol | "" = Reflect.getOwnMetadata(QUERY_KEY, query) ?? "";
 
   if (meta) {
-    throw new QueryAlreadyUsedException(target);
+    throw new QueryAlreadyUsedException(query);
   }
 
-  const key = Symbol(target.name);
+  const key = Symbol(query.name);
 
-  Reflect.defineMetadata(QUERY_KEY, key, target);
+  Reflect.defineMetadata(QUERY_KEY, key, query);
 
-  return (queryHandler: new () => Handler<TQuery, TResult>) => {
+  return (target: new () => Handler<TQuery, TResult>) => {
     const registry = getRegistry<Handler<unknown, unknown>>(
       RegistryType.QueryHandler
     );
 
-    if(!("handle" in queryHandler.prototype)) {
-      throw new Error(`${queryHandler.name} doesn't defined any 'handle' method.`);
+    if(!("handle" in target.prototype)) {
+      throw new Error(`${target.name} doesn't defined any 'handle' method.`);
     }
 
-    registry.add(key, queryHandler);
+    registry.add(key, target);
   };
 };
 
