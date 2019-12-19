@@ -4,7 +4,7 @@ import { QueryDispatcher } from "./queryDispatcher";
 import { Handler } from "../types/handler";
 import { resetRegistries } from "../registries/context";
 import uuid from "uuid";
-import { QueryUnassignedException } from "../exceptions/queryUnassignedException";
+import { UnknowQueryException } from "../exceptions/unknowQueryException";
 
 describe("QueryDispatcher tests", () => {
   beforeAll(() => {
@@ -45,7 +45,7 @@ describe("QueryDispatcher tests", () => {
 
     }
 
-    const expected = new QueryUnassignedException(Ping);
+    const expected = new UnknowQueryException(Ping);
 
     const queryDispatcher = new QueryDispatcher();
 
@@ -54,6 +54,5 @@ describe("QueryDispatcher tests", () => {
     
     // Assert
     await expect(promise).rejects.toThrow(expected);
-
   });
 });

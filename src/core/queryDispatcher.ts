@@ -4,7 +4,7 @@ import { Handler } from "../types/handler";
 import { getRegistry } from "../registries/context";
 import { RegistryType } from "../registries/registryType";
 import { QUERY_KEY } from "../decorators/queryHandler";
-import { QueryUnassignedException } from "../exceptions/queryUnassignedException";
+import { UnknowQueryException } from "../exceptions/unknowQueryException";
 
 class QueryDispatcher implements Dispatcher {
   private readonly registry: Registry<Handler<unknown, unknown>>;
@@ -22,7 +22,7 @@ class QueryDispatcher implements Dispatcher {
       const result = (await handler.handle(query) as unknown) as TResult;
       return result;
     } else {
-      throw new QueryUnassignedException(ctor);
+      throw new UnknowQueryException(ctor);
     }
   }
 }
