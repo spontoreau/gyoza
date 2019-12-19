@@ -39,12 +39,12 @@ describe("QueryDispatcher tests", () => {
     expect(actual).toBe(expected);
   });
 
-  it("When the QueryDispatcher dispatch a query than isn't assign to a Handler, Then the dispatcher throws an exception", async () => {
+  it("Given an unassigned query, When the QueryDispatcher dispatch it, Then the dispatcher throws an exception", async () => {
     // Arrange
     class Ping {
 
     }
-    
+
     const expected = new QueryUnassignedException(Ping);
 
     const queryDispatcher = new QueryDispatcher();
