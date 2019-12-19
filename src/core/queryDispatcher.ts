@@ -13,10 +13,16 @@ class QueryDispatcher implements Dispatcher {
   }
 
   async dispatch<TMessage, TResult>(query: TMessage): Promise<TResult> {
-    const key: Symbol = Reflect.getOwnMetadata(QUERY_KEY, (query as any).constructor) ?? Symbol();
-    const handler = this.registry.getInstance(key);
-    const result = (await handler.handle(query) as unknown) as TResult;
-    return result;
+    const ctor = (query as any).constructor;
+    const key: Symbol | "" = Reflect.getOwnMetadata(QUERY_KEY, ctor) ?? "";
+
+    if(key) {
+      const handler = this.registry.getInstance(key);
+      const result = (await handler.handle(query) as unknown) as TResult;
+      return result;
+    } else {
+      throw new Error(`${ctor.name} isn't assign to a query handler. Did you forget to use the @QueryHandler decorator?`);
+    }
   }
 }
 

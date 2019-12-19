@@ -37,4 +37,22 @@ describe("QueryDispatcher tests", () => {
     // Assert
     expect(actual).toBe(expected);
   });
+
+  it("When the QueryDispatcher dispatch a query than isn't assign to a Handler, Then the dispatcher throws an exception", async () => {
+    // Arrange
+    const expected = new Error("Ping isn't assign to a query handler. Did you forget to use the @QueryHandler decorator?");
+
+    class Ping {
+
+    }
+
+    const queryDispatcher = new QueryDispatcher();
+
+    // Act
+    const promise = queryDispatcher.dispatch(new Ping()); ;
+    
+    // Assert
+    await expect(promise).rejects.toThrow(expected);
+
+  });
 });
