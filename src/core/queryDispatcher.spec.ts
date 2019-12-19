@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { QueryHandler } from "../decorators/queryHandler";
+import { QueryHandler, QUERY_KEY } from "../decorators/queryHandler";
 import { QueryDispatcher } from "./queryDispatcher";
 import { Handler } from "../types/handler";
 import { resetRegistries } from "../registries/context";
@@ -51,6 +51,28 @@ describe("QueryDispatcher tests", () => {
 
     // Act
     const promise = queryDispatcher.dispatch(new Ping()); ;
+    
+    // Assert
+    await expect(promise).rejects.toThrow(expected);
+  });
+
+  it("Given a query with metadata manually added, When the QueryDispatcher dispatch it, Then the dispatcher throws an exception", async () => {    
+    // This test cover a case that impossible to trigger.
+    // Here for the coverage and to ensure that the lib is resilient to someone that is trying to exploit this kind of case.
+    
+    // Arrange
+    class Ping {
+
+    }
+
+    const key = Symbol(Ping.name);
+    Reflect.defineMetadata(QUERY_KEY, key, Ping);
+    const expected = "No handler is assigned to the Ping query, but it contains valid metadata. Did you manually defined metadada for this query? If so, please use @QueryHandler decorator to ensure Ping is assigned to a handler. Otherwise, please fill an issue on the GitHub repository with a test that reproduce the problem.";
+
+    const queryDispatcher = new QueryDispatcher();
+
+    // Act
+    const promise = queryDispatcher.dispatch(new Ping());
     
     // Assert
     await expect(promise).rejects.toThrow(expected);

@@ -11,6 +11,10 @@ class Registry<T> {
     this.ctors.set(key, handler);
   }
 
+  hasKey(key: Symbol) {
+    return this.ctors.has(key);
+  }
+
   getInstance(key: Symbol): T {
     const ctor = this.ctors.get(key) as new (...args: unknown[]) => T;
     return new ctor();
