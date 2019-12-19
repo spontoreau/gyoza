@@ -16,18 +16,18 @@ class QueryDispatcher implements Dispatcher {
 
   async dispatch<TMessage, TResult>(query: TMessage): Promise<TResult> {
     const ctor = (query as any).constructor;
-    const key: Symbol | "" = Reflect.getOwnMetadata(QUERY_KEY, ctor) ?? "";
+    const key: symbol | "" = Reflect.getOwnMetadata(QUERY_KEY, ctor) ?? "";
 
-    if(!key) {
+    if (!key) {
       throw new UnknowQueryException(ctor);
     }
 
-    if(!this.registry.hasKey(key)) {
+    if (!this.registry.hasKey(key)) {
       throw new QueryUnassignedException(ctor);
     }
 
     const handler = this.registry.getInstance(key);
-    const result = (await handler.handle(query) as unknown) as TResult;
+    const result = ((await handler.handle(query)) as unknown) as TResult;
     return result;
   }
 }

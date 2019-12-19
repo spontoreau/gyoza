@@ -42,29 +42,25 @@ describe("QueryDispatcher tests", () => {
 
   it("Given an unassigned query, When the QueryDispatcher dispatch it, Then the dispatcher throws an exception", async () => {
     // Arrange
-    class Ping {
-
-    }
+    class Ping {}
 
     const expected = new UnknowQueryException(Ping);
 
     const queryDispatcher = new QueryDispatcher();
 
     // Act
-    const promise = queryDispatcher.dispatch(new Ping()); ;
-    
+    const promise = queryDispatcher.dispatch(new Ping());
+
     // Assert
     await expect(promise).rejects.toThrow(expected);
   });
 
-  it("Given a query with metadata manually added, When the QueryDispatcher dispatch it, Then the dispatcher throws an exception", async () => {    
+  it("Given a query with metadata manually added, When the QueryDispatcher dispatch it, Then the dispatcher throws an exception", async () => {
     // This test cover a case that impossible to trigger.
     // Here for the coverage and to ensure that the lib is resilient to someone that is trying to exploit this kind of case.
-    
-    // Arrange
-    class Ping {
 
-    }
+    // Arrange
+    class Ping {}
 
     const key = Symbol(Ping.name);
     Reflect.defineMetadata(QUERY_KEY, key, Ping);
@@ -73,7 +69,7 @@ describe("QueryDispatcher tests", () => {
 
     // Act
     const promise = queryDispatcher.dispatch(new Ping());
-    
+
     // Assert
     await expect(promise).rejects.toThrow(expected);
   });

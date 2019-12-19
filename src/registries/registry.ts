@@ -1,21 +1,21 @@
 import { RegistryType } from "./registryType";
 
 class Registry<T> {
-  private readonly ctors: Map<Symbol, new (...args: unknown[]) => T>;
+  private readonly ctors: Map<symbol, new (...args: unknown[]) => T>;
 
   constructor(public readonly type: RegistryType) {
     this.ctors = new Map();
   }
 
-  add(key: Symbol, handler: new (...args: unknown[]) => T) {
+  add(key: symbol, handler: new (...args: unknown[]) => T) {
     this.ctors.set(key, handler);
   }
 
-  hasKey(key: Symbol) {
+  hasKey(key: symbol) {
     return this.ctors.has(key);
   }
 
-  getInstance(key: Symbol): T {
+  getInstance(key: symbol): T {
     const ctor = this.ctors.get(key) as new (...args: unknown[]) => T;
     return new ctor();
   }

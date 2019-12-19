@@ -26,7 +26,7 @@ describe("QueryHandler decorator tests", () => {
       }
     }
 
-    const actual: Symbol | "" = Reflect.getOwnMetadata(QUERY_KEY, Ping) ?? "";
+    const actual: symbol | "" = Reflect.getOwnMetadata(QUERY_KEY, Ping) ?? "";
 
     // Assert
     expect(actual.toString()).toBe(expected);
@@ -74,7 +74,7 @@ describe("QueryHandler decorator tests", () => {
 
     // Assert
     const registry = getRegistry(RegistryType.QueryHandler);
-    const key = Reflect.getOwnMetadata(QUERY_KEY, Ping) as Symbol;
+    const key = Reflect.getOwnMetadata(QUERY_KEY, Ping) as symbol;
     const handler = registry.getInstance(key);
     const actual = handler instanceof PingQueryHandler;
     expect(actual).toBeTruthy();
@@ -86,14 +86,14 @@ describe("QueryHandler decorator tests", () => {
 
     // Act
     const func = expect(() => {
+      /*eslint-disable */
       // @ts-ignore
       @QueryHandler(Ping)
       class PingQueryHandler {}
+      /*eslint-enable */
     });
 
     // Assert
-    func.toThrowError(
-      "PingQueryHandler doesn't defined any 'handle' method."
-    );
+    func.toThrowError("PingQueryHandler doesn't defined any 'handle' method.");
   });
 });

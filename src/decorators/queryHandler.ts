@@ -8,7 +8,7 @@ const QUERY_KEY = Symbol("Query");
 const QueryHandler = <TQuery, TResult>(
   query: new (...parameters: any[]) => TQuery
 ) => {
-  const meta: Symbol | "" = Reflect.getOwnMetadata(QUERY_KEY, query) ?? "";
+  const meta: symbol | "" = Reflect.getOwnMetadata(QUERY_KEY, query) ?? "";
 
   if (meta) {
     throw new QueryAlreadyUsedException(query);
@@ -23,7 +23,7 @@ const QueryHandler = <TQuery, TResult>(
       RegistryType.QueryHandler
     );
 
-    if(!("handle" in target.prototype)) {
+    if (!("handle" in target.prototype)) {
       throw new Error(`${target.name} doesn't defined any 'handle' method.`);
     }
 
