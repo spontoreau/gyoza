@@ -4,6 +4,7 @@ import { Handler } from "../types/handler";
 import { getRegistry } from "../registries/context";
 import { RegistryType } from "../registries/registryType";
 import { QUERY_KEY } from "../decorators/queryHandler";
+import { QueryUnassignedException } from "../exceptions/queryUnassignedException";
 
 class QueryDispatcher implements Dispatcher {
   private readonly registry: Registry<Handler<unknown, unknown>>;
@@ -21,7 +22,7 @@ class QueryDispatcher implements Dispatcher {
       const result = (await handler.handle(query) as unknown) as TResult;
       return result;
     } else {
-      throw new Error(`${ctor.name} isn't assign to a query handler. Did you forget to use the @QueryHandler decorator?`);
+      throw new QueryUnassignedException(ctor);
     }
   }
 }

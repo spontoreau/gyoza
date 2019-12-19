@@ -4,6 +4,7 @@ import { QueryDispatcher } from "./queryDispatcher";
 import { Handler } from "../types/handler";
 import { resetRegistries } from "../registries/context";
 import uuid from "uuid";
+import { QueryUnassignedException } from "../exceptions/queryUnassignedException";
 
 describe("QueryDispatcher tests", () => {
   beforeAll(() => {
@@ -40,11 +41,11 @@ describe("QueryDispatcher tests", () => {
 
   it("When the QueryDispatcher dispatch a query than isn't assign to a Handler, Then the dispatcher throws an exception", async () => {
     // Arrange
-    const expected = new Error("Ping isn't assign to a query handler. Did you forget to use the @QueryHandler decorator?");
-
     class Ping {
 
     }
+    
+    const expected = new QueryUnassignedException(Ping);
 
     const queryDispatcher = new QueryDispatcher();
 
