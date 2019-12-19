@@ -5,6 +5,7 @@ import { Handler } from "../types/handler";
 import { resetRegistries } from "../registries/context";
 import uuid from "uuid";
 import { UnknowQueryException } from "../exceptions/unknowQueryException";
+import { QueryUnassignedException } from "../exceptions/queryUnassignedException";
 
 describe("QueryDispatcher tests", () => {
   beforeAll(() => {
@@ -67,8 +68,7 @@ describe("QueryDispatcher tests", () => {
 
     const key = Symbol(Ping.name);
     Reflect.defineMetadata(QUERY_KEY, key, Ping);
-    const expected = "No handler is assigned to the Ping query, but it contains valid metadata. Did you manually defined metadada for this query? If so, please use @QueryHandler decorator to ensure Ping is assigned to a handler. Otherwise, please fill an issue on the GitHub repository with a test that reproduce the problem.";
-
+    const expected = new QueryUnassignedException(Ping).message;
     const queryDispatcher = new QueryDispatcher();
 
     // Act

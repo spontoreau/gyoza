@@ -5,6 +5,7 @@ import { getRegistry } from "../registries/context";
 import { RegistryType } from "../registries/registryType";
 import { QUERY_KEY } from "../decorators/queryHandler";
 import { UnknowQueryException } from "../exceptions/unknowQueryException";
+import { QueryUnassignedException } from "../exceptions/queryUnassignedException";
 
 class QueryDispatcher implements Dispatcher {
   private readonly registry: Registry<Handler<unknown, unknown>>;
@@ -19,7 +20,7 @@ class QueryDispatcher implements Dispatcher {
 
     if(key) {
       if(!this.registry.hasKey(key)) {
-        throw new Error(`No handler is assigned to the ${ctor.name} query, but it contains valid metadata. Did you manually defined metadada for this query? If so, please use @QueryHandler decorator to ensure ${ ctor.name } is assigned to a handler. Otherwise, please fill an issue on the GitHub repository with a test that reproduce the problem.`);
+        throw new QueryUnassignedException(ctor);
       }
 
       const handler = this.registry.getInstance(key);
