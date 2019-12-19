@@ -18,18 +18,17 @@ class QueryDispatcher implements Dispatcher {
     const ctor = (query as any).constructor;
     const key: Symbol | "" = Reflect.getOwnMetadata(QUERY_KEY, ctor) ?? "";
 
-    if(key) {
-      if(!this.registry.hasKey(key)) {
-        throw new QueryUnassignedException(ctor);
-      }
-
-      const handler = this.registry.getInstance(key);
-      const result = (await handler.handle(query) as unknown) as TResult;
-      return result;
-      
-    } else {
+    if(!key) {
       throw new UnknowQueryException(ctor);
     }
+
+    if(!this.registry.hasKey(key)) {
+      throw new QueryUnassignedException(ctor);
+    }
+
+    const handler = this.registry.getInstance(key);
+    const result = (await handler.handle(query) as unknown) as TResult;
+    return result;
   }
 }
 
