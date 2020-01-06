@@ -1,7 +1,13 @@
 {
   "name": "gyoza",
   "version": "0.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "LICENCE",
+    "README.md",
+    "dist/"
+  ],
   "repository": "git@github.com:spontoreau/gyoza.git",
   "author": "<pontoreau.sylvain@gmail.com>",
   "license": "MIT",
